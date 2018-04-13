@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <headerComponent></headerComponent>
-    <div class="tab">
+    <headerComponent :seller="seller"></headerComponent>
+    <div class="tab border-1px">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
       </div>
@@ -20,10 +20,26 @@
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import headerComponent from 'components/header/header';
-
+  import axios from 'axios';
+  const ERR_OK = 0;
   export default {
+    data () {
+      return {
+        seller: {}
+      };
+    },
+    created () {
+      let _this = this;
+      axios.get('/api/seller').then(function (response) {
+        if (response.data.errno === ERR_OK) {
+          _this.seller = response.data.data;
+        }
+      }).catch(function (response) {
+        console.log(response);
+      });
+    },
     components: {
       'headerComponent': headerComponent
     }
@@ -31,11 +47,13 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "./common/stylus/mixin.styl"
   .tab
     display flex
     width 100%
     height 40px
     line-height 40px
+    border-1px-top((rgba(0,0,0,1)))
     .tab-item
       flex 1
       text-align center
