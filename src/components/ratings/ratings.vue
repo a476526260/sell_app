@@ -1,5 +1,9 @@
 <template>
-    <div>评论</div>
+  <div class="ratings">
+    <div class="ratingsCompnents">
+      <p>this is ratings view</p>
+    </div>
+  </div>
 </template>
 
 <script>

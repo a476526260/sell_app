@@ -1,5 +1,9 @@
 <template>
-    <div>goods</div>
+    <div class="goods">
+      <div class="goodsCompnents">
+        <p>this is goods view</p>
+      </div>
+    </div>
 </template>
 
 <script>

@@ -6,25 +6,26 @@ import ratings from '../components/ratings/ratings';
 
 Vue.use(Router);
 
-const routers = [
+const routes = [
   {
     path: '/',
     redirect: '/goods'
   },
   {
     path: '/goods',
-    components: goods
+    component: goods
   },
   {
     path: '/ratings',
-    components: ratings
+    component: ratings
   },
   {
     path: '/seller',
-    components: seller
+    component: seller
   }
 ];
 
 export default new Router({
-  routers
+  linkActiveClass: 'active',
+  routes
 });

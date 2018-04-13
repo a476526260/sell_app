@@ -1,5 +1,9 @@
 <template>
-  <div>seller</div>
+  <div class="seller">
+    <div class="sellerComponents">
+      <p>this is seller view</p>
+    </div>
+  </div>
 </template>
 
 <script>
