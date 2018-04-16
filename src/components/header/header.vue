@@ -85,7 +85,7 @@
       showDetail: function () {
         this.detailShow = true;
       },
-      hideDetail:function () {
+      hideDetail: function () {
         this.detailShow = false;
       }
     },
@@ -223,7 +223,7 @@
       overflow auto
       background rgba(7, 17, 27, 0.8)
       transition all 0.3s
-      &.fade-enter,&.fade-leave-to
+      &.fade-enter, &.fade-leave-to
         opacity 0
         background rgba(7, 17, 27, 0)
       .detail-wrapper
@@ -256,9 +256,9 @@
               font-weight 700
           .supports
             width 80%
-            margin:0 auto
+            margin: 0 auto
             .support-item
-              padding:0 12px
+              padding: 0 12px
               margin-bottom 12px
               font-size 0
               &:last-child
@@ -266,7 +266,7 @@
               .icon
                 display inline-block
                 width 16px
-                height:16px
+                height: 16px
                 vertical-align top
                 margin-right 6px
                 background-size 16px 16px
