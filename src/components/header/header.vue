@@ -44,7 +44,7 @@
   @import "../../common/stylus/mixin.styl";
   .header
     color #fff
-    background url('brand@2x.png')
+    background #000
     .content-wrapper
       position: relative
       padding 24px 12px 18px 24px
