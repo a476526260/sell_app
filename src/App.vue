@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <headerComponent :seller="seller"></headerComponent>
-    <div class="tab border-1px">
+    <div class="tab border-1px-top">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
       </div>
