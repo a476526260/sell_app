@@ -1,12 +1,12 @@
 <template>
   <div class="star" :class="starType">
-    <span v-for="item in itemClasses" :key="item" class="star-item" :class="item"></span>
+    <span v-for="item in itemClasses" :key="item.id" class="star-item" :class="item.className"></span>
   </div>
 </template>
 
 <script>
   const LENGTH = 5;
-  const CLS_ON = 'turn_on';
+  const CLS_FULL = 'turn_full';
   const CLS_HALF = 'turn_half';
   const CLS_OFF = 'turn_off';
   export default {
@@ -31,14 +31,24 @@
         let score = Math.floor(this.score * 2) / 2;
         let hasDecimal = score % 1 !== 0;
         let integer = Math.floor(score);
-        for (let i = 0; i < integer; i++) {
-          result.push(CLS_ON);
+        let i = 0;
+        for (i; i < integer; i++) {
+          result.push({
+            'id': i,
+            'className': CLS_FULL
+          });
         }
         if (hasDecimal) {
-          result.push(CLS_HALF);
+          result.push({
+            'id': i,
+            'className': CLS_HALF
+          });
         }
         while (result.length < LENGTH) {
-          result.push(CLS_OFF);
+          result.push({
+            'id': result.length,
+            'className': CLS_OFF
+          });
         }
         return result;
       }
@@ -53,7 +63,6 @@
       display inline-block
       background-repeat no-repeat
       font-size 0
-
     &.star-48
       .star-item
         width: 20px
@@ -62,7 +71,7 @@
         background-size 20px 20px
         &:last-child
           margin-right 0
-        &.turn_on
+        &.turn_full
           bg-image('star48_on')
         &.turn_half
           bg-image('star48_half')
@@ -76,7 +85,7 @@
         background-size 15px 15px
         &:last-child
           margin-right 0
-        &.turn_on
+        &.turn_full
           bg-image('star36_on')
         &.turn_half
           bg-image('star36_half')
@@ -90,7 +99,7 @@
         background-size 10px 10px
         &:last-child
           margin-right 0
-        &.turn_on
+        &.turn_full
           bg-image('star24_on')
         &.turn-half
           bg-image('star24_half')
