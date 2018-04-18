@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <headerComponent :seller="seller"></headerComponent>
-    <div class="tab border-1px-top">
+    <div class="tab">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
       </div>
@@ -23,14 +23,15 @@
 <script type="text/ecmascript-6">
   import headerComponent from 'components/header/header';
   import axios from 'axios';
+
   const ERR_OK = 0;
   export default {
-    data () {
+    data() {
       return {
         seller: {}
       };
     },
-    created () {
+    created() {
       let _this = this;
       axios.get('/api/seller').then(function (response) {
         if (response.data.errno === ERR_OK) {
@@ -53,14 +54,14 @@
     width 100%
     height 40px
     line-height 40px
-    border-1px-top((rgba(0,0,0,1)))
+    border-1px-bottom(rgba(0, 0, 0, 1))
     .tab-item
       flex 1
       text-align center
-      &> a
+      & > a
         display block
         font-size 14px
-        color rgb(77,85,93)
+        color rgb(77, 85, 93)
         &.active
-          color rgb(240,20,20)
+          color rgb(240, 20, 20)
 </style>
