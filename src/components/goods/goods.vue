@@ -2,7 +2,8 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menu">
       <ul>
-        <li v-for="(item,index) in goods" :key="index" class="menu-item" :class="{'current':currentIndex===index}">
+        <li v-for="(item,index) in goods" :key="index" class="menu-item" :class="{'current':currentIndex===index}"
+            @click="selectMenu(index,$event)">
           <span class="text">
             <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>
             {{item.name}}
@@ -35,12 +36,14 @@
         </li>
       </ul>
     </div>
+    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
-<script>
+<script type="text/ecmascript-6">
   import axios from 'axios';
   import BScroll from 'better-scroll';
+  import shopcart from 'components/shopcart/shopcart';
 
   const ERR_OK = 0;
   export default {
@@ -85,6 +88,14 @@
       });
     },
     methods: {
+      selectMenu(index, event) {
+        if (!event._constructed) {
+          return;
+        }
+        let foodList = this.$refs.foodList;
+        let foodItem = foodList[index];
+        this.foodsScroll.scrollToElement(foodItem, 300);
+      },
       _initScroll() {
         this.menuScroll = new BScroll(this.$refs.menu, {
           click: true
@@ -109,6 +120,9 @@
           this.listHeight.push(height);
         }
       }
+    },
+    components: {
+      shopcart
     }
   };
 </script>
