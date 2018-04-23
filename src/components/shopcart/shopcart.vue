@@ -3,12 +3,17 @@
     <div class="content">
       <div class="content-left">
         <div class="logo-wrapper">
-          <div class="logo"><span class="icon-shopping_cart"></span></div>
+          <div class="logo" :class="{'hightlight':totalPrice>0}">
+            <span class="icon-shopping_cart" :class="{'hightlight':totalPrice>0}"></span>
+          </div>
+          <div class="num" v-if="totalCount>0">{{totalCount}}</div>
         </div>
-        <div class="price">￥0元</div>
+        <div class="price" :class="{'hightlight':totalPrice>0}">￥0元</div>
         <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
-      <div class="content-right"></div>
+      <div class="content-right">
+        <div class="pay" :class="payClass">￥{{minPrice}}元起送</div>
+      </div>
     </div>
   </div>
 </template>
@@ -17,6 +22,21 @@
   export default {
     name: 'shopcart',
     props: {
+      selectFoods: {
+        type: Array,
+        defalut() {
+          return [
+            {
+              price: 20,
+              count: 1
+            },
+            {
+              price: 30,
+              count: 2
+            }
+          ];
+        }
+      },
       deliveryPrice: {
         type: Number,
         default: 0
@@ -24,6 +44,39 @@
       minPrice: {
         type: Number,
         default: 0
+      }
+    },
+    computed: {
+      totalPrice() {
+        let total = 0;
+        [{price: 10, count: 1}].forEach((item) => {
+          total += item.price * item.count;
+        });
+        return total;
+      },
+      totalCount() {
+        let count = 0;
+        this.selectFoods.forEach((item) => {
+          count += item.count;
+        });
+        return count;
+      },
+      payDesc() {
+        if (this.totalPrice === 0) {
+          return `￥${this.minPrice}元起送`;
+        } else if (this.totalPrice < this.minPrice) {
+          let diff = this.minPrice - this.totalPrice;
+          return `还差￥${diff}元起送`;
+        } else {
+          return '去结算';
+        }
+      },
+      payClass() {
+        if (this.totalPrice < this.mnPrice) {
+          return 'notEnough';
+        } else {
+          return 'enough';
+        }
       }
     }
   };
@@ -61,10 +114,29 @@
             border-radius 50%
             background #2b343c
             text-align center
+            &.hightlight
+              background rgb(0, 160, 220)
             .icon-shopping_cart
               color #80858a
               font-size 24px
               line-height 44px
+              &.hightlight {
+                color: #fff
+              }
+          .num
+            position absolute
+            top: 0
+            right: 0
+            width 24px
+            height 16px
+            line-height 16px
+            text-align center
+            border-radius 16px
+            font-size 9px
+            font-weight 700
+            color #fff
+            background rgb(240, 20, 20)
+            box-shadow 0 4px 8px 0 rgba(0, 0, 0, 0.4)
         .price
           display inline-block
           vertical-align top
@@ -76,6 +148,8 @@
           font-size 16px
           font-weight 700
           color: rgba(255, 255, 255, 0.4)
+          &.hightlight
+            color: #fff
         .desc
           display inline-block
           vertical-align top
@@ -87,4 +161,17 @@
       .content-right
         flex 0 0 105px
         width 105px
+        .pay
+          height 48px
+          line-height 48px
+          text-align: center
+          font-size 12px
+          font-weight 700
+          background #2b333b
+          color rgba(255, 255, 255, 0.4)
+          &.notEnough
+            background #2b333b
+          &.enough
+            background #00b43c
+            color: #fff
 </style>
