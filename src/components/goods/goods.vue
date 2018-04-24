@@ -30,13 +30,16 @@
                   <span class="now">￥{{food.price}}</span><span class="old"
                                                                 v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="carControl-wrapper">
+                  <cartControl :food="food"></cartControl>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :selectFoods="selectFoods"></shopcart>
   </div>
 </template>
 
@@ -44,6 +47,7 @@
   import axios from 'axios';
   import BScroll from 'better-scroll';
   import shopcart from 'components/shopcart/shopcart';
+  import cartControl from 'components/cartControl/cartControl';
 
   const ERR_OK = 0;
   export default {
@@ -55,7 +59,7 @@
     },
     data() {
       return {
-        goods: {},
+        goods: [],
         listHeight: [],
         scrollY: 0
       };
@@ -70,6 +74,18 @@
           }
         }
         return 0;
+      },
+      selectFoods() {
+        let foods = [];
+        console.log(typeof this.goods);
+        this.goods.forEach(function (good) {
+          good.foods.forEach(function (food) {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     created() {
@@ -122,7 +138,8 @@
       }
     },
     components: {
-      shopcart
+      shopcart,
+      cartControl
     }
   };
 </script>
@@ -233,4 +250,8 @@
               text-decoration line-through
               font-size 10px
               color rgb(147, 153, 159)
+          .carControl-wrapper
+            position absolute
+            right 0
+            bottom 12px
 </style>

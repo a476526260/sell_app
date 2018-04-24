@@ -8,7 +8,7 @@
           </div>
           <div class="num" v-if="totalCount>0">{{totalCount}}</div>
         </div>
-        <div class="price" :class="{'hightlight':totalPrice>0}">￥0元</div>
+        <div class="price" :class="{'hightlight':totalPrice>0}">￥{{totalPrice}}元</div>
         <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
       </div>
       <div class="content-right">
@@ -24,17 +24,8 @@
     props: {
       selectFoods: {
         type: Array,
-        defalut() {
-          return [
-            {
-              price: 20,
-              count: 1
-            },
-            {
-              price: 30,
-              count: 2
-            }
-          ];
+        default() {
+          return [];
         }
       },
       deliveryPrice: {
@@ -49,7 +40,7 @@
     computed: {
       totalPrice() {
         let total = 0;
-        [{price: 10, count: 1}].forEach((item) => {
+        this.selectFoods.forEach((item) => {
           total += item.price * item.count;
         });
         return total;
