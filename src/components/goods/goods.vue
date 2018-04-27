@@ -16,7 +16,7 @@
         <li v-for="(item,index) in goods" :key="index" class="food-list food-list-hook" ref="foodList">
           <h2 class="title">{{item.name}}</h2>
           <ul>
-            <li v-for="(food,index) in item.foods" :key="index" class="food-item">
+            <li @click="selectFood(food,$event)" v-for="(food,index) in item.foods" :key="index" class="food-item">
               <div class="icon">
                 <img :src="food.icon" alt="">
               </div>
@@ -31,7 +31,7 @@
                                                                 v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="carControl-wrapper">
-                  <cartControl :food="food"></cartControl>
+                  <cartControl :food="food" v-on:add="addFood"></cartControl>
                 </div>
               </div>
             </li>
@@ -39,15 +39,18 @@
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :selectFoods="selectFoods"></shopcart>
+    <shopCart ref="shopcart" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"
+              :selectFoods="selectFoods"></shopCart>
+    <food :food="selectedFood" ref="food"></food>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import axios from 'axios';
   import BScroll from 'better-scroll';
-  import shopcart from 'components/shopcart/shopcart';
-  import cartControl from 'components/cartControl/cartControl';
+  import shopCart from '../shopcart/shopcart';
+  import cartControl from '../cartControl/cartControl';
+  import food from '../food/food';
 
   const ERR_OK = 0;
   export default {
@@ -61,7 +64,8 @@
       return {
         goods: [],
         listHeight: [],
-        scrollY: 0
+        scrollY: 0,
+        selectedFood: {}
       };
     },
     computed: {
@@ -77,7 +81,6 @@
       },
       selectFoods() {
         let foods = [];
-        console.log(typeof this.goods);
         this.goods.forEach(function (good) {
           good.foods.forEach(function (food) {
             if (food.count) {
@@ -104,6 +107,13 @@
       });
     },
     methods: {
+      selectFood(food, event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.selectedFood = food;
+        this.$refs.food.show();
+      },
       selectMenu(index, event) {
         if (!event._constructed) {
           return;
@@ -135,11 +145,21 @@
           height += item.clientHeight;
           this.listHeight.push(height);
         }
+      },
+      addFood(target) {
+        this._drop(target);
+      },
+      _drop(target) {
+        // 效果优化，异步执行
+        this.$nextTick(function () {
+          this.$refs.shopcart.drop(target);
+        });
       }
     },
     components: {
-      shopcart,
-      cartControl
+      shopCart,
+      cartControl,
+      food
     }
   };
 </script>
