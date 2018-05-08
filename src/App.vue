@@ -42,7 +42,7 @@
       });
     },
     components: {
-      'headerComponent': headerComponent
+      headerComponent
     }
   };
 </script>
